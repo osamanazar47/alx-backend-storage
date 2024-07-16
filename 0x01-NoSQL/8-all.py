@@ -5,4 +5,4 @@ import pymongo
 
 def list_all(mongo_collection):
     """returns a list of all documents"""
-    return [document for document in mongo_collection.find() 
+    return [document for document in mongo_collection.find()]
