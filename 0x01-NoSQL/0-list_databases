@@ -1,1 +1,2 @@
-#!/usr/bin/env bash
+// Lists all databases in MongonDB.
+show dbs;
