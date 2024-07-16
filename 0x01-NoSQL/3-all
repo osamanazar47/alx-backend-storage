@@ -1,1 +1,2 @@
-#!/usr/bin/env bash
+// Lists all documents in the collection school
+db.school.find();
