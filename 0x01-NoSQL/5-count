@@ -1,1 +1,2 @@
-#!/usr/bin/env bash
+// Displays the number of documents in collection school
+db.school.find().count();
