@@ -1,1 +1,2 @@
-#!/usr/bin/env bash
+// deletes all the documents
+db.school.deleteMany({ "name": "Holberton school" });
