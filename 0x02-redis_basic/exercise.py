@@ -6,14 +6,7 @@ from typing import Union, Callable, Any
 import functools
 
 
-class Cache:
-    """Cache class"""
-    def __init__(self) -> None:
-        """initialization of the Cache class"""
-        self._redis = redis.Redis()
-        self._redis.flushdb(True)
-
-    def count_calls(self, method: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
         """Decorator to count how many times a method is called."""
 
         @functools.wraps(method)
@@ -25,6 +18,13 @@ class Cache:
                 self._redis.incr(key)
             return method(self, *args, **kwargs)
         return wrapper
+
+class Cache:
+    """Cache class"""
+    def __init__(self) -> None:
+        """initialization of the Cache class"""
+        self._redis = redis.Redis()
+        self._redis.flushdb(True)
 
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
