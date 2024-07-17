@@ -2,7 +2,8 @@
 """Module for task 0(writing strings to redis)"""
 import redis
 import uuid
-from typing import Union, Optional, Callable
+from typing import Union, Callable, Any
+import functools
 
 
 class Cache:
@@ -12,6 +13,20 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb(True)
 
+    def count_calls(self, method: Callable) -> Callable:
+        """Decorator to count how many times a method is called."""
+        count = 0
+
+        @functools.wraps(method)
+        def wrapper(self, *args, **kwargs) -> Any:
+            nonlocal count
+            key = method.__qualname__
+            count += 1
+            self._redis.incr(key)
+            return method(self, *args, **kwargs)
+        return wrapper
+
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """takes a data argument and returns a string"""
         key = str(uuid.uuid4())
