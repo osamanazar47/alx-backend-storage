@@ -6,10 +6,10 @@ import uuid
 
 class Cache:
     """Cache class"""
-    def __init__(self):
+    def __init__(self) -> None:
         """initialization of the Cache class"""
         self._redis = redis.Redis()
-        self._redis.flushdb()
+        self._redis.flushdb(True)
 
     def store(self, data: str | bytes | int | float) -> str:
         """takes a data argument and returns a string"""
