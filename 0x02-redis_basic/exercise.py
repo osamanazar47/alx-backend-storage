@@ -15,14 +15,14 @@ class Cache:
 
     def count_calls(self, method: Callable) -> Callable:
         """Decorator to count how many times a method is called."""
-        count = 0
 
         @functools.wraps(method)
         def wrapper(self, *args, **kwargs) -> Any:
-            nonlocal count
-            key = method.__qualname__
-            count += 1
-            self._redis.incr(key)
+            """Invokes a given method after incrementing its call counter.
+            """
+            if isinstance(self._redis, redis.Redis):
+                key = method.__qualname__
+                self._redis.incr(key)
             return method(self, *args, **kwargs)
         return wrapper
 
